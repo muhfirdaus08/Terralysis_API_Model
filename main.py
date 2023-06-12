@@ -72,6 +72,11 @@ class ImageTable(Base):
     kelas = Column(String, nullable=False)
     short_desc = Column(String, nullable=False)
     long_desc = Column(String, nullable=False)
+    kandungan = Column(String, nullable=False)
+    persebaran = Column(String, nullable=False)
+    ciri_fisik = Column(String, nullable=False)
+    ciri_kimia = Column(String, nullable=False)
+    ciri_morfologi = Column(String, nullable=False)
     createdAt = Column(DateTime, default=func.now(), nullable=False)
     updatedAt = Column(
         DateTime, default=func.now(), onupdate=datetime.utcnow, nullable=False
@@ -89,13 +94,18 @@ class ImageTableGuest(Base):
     kelas = Column(String, nullable=False)
     short_desc = Column(String, nullable=False)
     long_desc = Column(String, nullable=False)
+    kandungan = Column(String, nullable=False)
+    persebaran = Column(String, nullable=False)
+    ciri_fisik = Column(String, nullable=False)
+    ciri_kimia = Column(String, nullable=False)
+    ciri_morfologi = Column(String, nullable=False)
     createdAt = Column(DateTime, default=func.now(), nullable=False)
     updatedAt = Column(
         DateTime, default=func.now(), onupdate=datetime.utcnow, nullable=False
     )
 
 
-model = keras.models.load_model('./model_2.h5')
+model = keras.models.load_model("./model_2.h5")
 
 
 async def prediksi(gambar):
@@ -137,7 +147,7 @@ def getShortDesc(label):
     descriptions = {
         "Alluvial": "Tanah Hasil Endapan",
         "Black": "Tanah Humus atau Organik",
-        "Clay": "Tanah yang Lentur",
+        "Clay": "Tanah yang Lentur (tanah liat)",
         "Red": "Tanah Laterit",
     }
     return descriptions.get(label, "Deskripsi tidak tersedia")
@@ -145,12 +155,62 @@ def getShortDesc(label):
 
 def getLongDesc(label):
     descriptions = {
-        "Alluvial": "Tanah alluvial merupakan jenis tanah yang terbentuk dari endapan material yang dibawa oleh air, seperti lumpur, pasir, dan kerikil. Mereka cenderung memiliki drainase yang baik dan kaya akan unsur hara.",
-        "Black": "Tanah black merupakan jenis tanah yang memiliki kandungan bahan organik yang tinggi, terutama humus. Warna hitamnya disebabkan oleh dekomposisi sisa-sisa organisme. Tanah ini umumnya subur dan mampu menyimpan air dengan baik.",
-        "Clay": "Tanah clay merupakan jenis tanah yang memiliki tekstur halus dan partikel tanah yang kecil. Mereka cenderung menggumpal saat basah dan keras saat kering. Tanah ini memiliki daya tahan air yang baik, tetapi drainasenya kurang optimal.",
-        "Red": "Tanah red merupakan jenis tanah yang memiliki warna merah hingga merah kecoklatan yang mencolok. Warna ini disebabkan oleh tingginya kandungan zat besi dan oksida besi dalam tanah. Tanah red sering ditemukan di daerah dengan iklim tropis atau subtropis.",
+        "Alluvial": "Tanah Alluvial adalah jenis tanah yang terbentuk oleh endapan sedimen yang dibawa oleh aliran sungai dan terdeposit di dataran banjir atau lembah sungai. Tanah ini biasanya kaya akan bahan organik dan nutrisi yang baik untuk pertumbuhan tanaman",
+        "Black": "Tanah Hitam, juga dikenal sebagai tanah Chernozem, adalah jenis tanah yang sangat subur dengan horison atas yang kaya akan bahan organik. Tanah ini cenderung memiliki warna hitam atau gelap akibat kandungan tinggi bahan organik.",
+        "Clay": "Tanah Liat adalah jenis tanah dengan kandungan partikel lempung yang tinggi. Partikel lempung yang halus memberikan tekstur yang lengket dan kepadatan yang tinggi. Tanah Liat cenderung memiliki kemampuan retensi air yang baik, tetapi juga dapat menjadi keras ketika kering.",
+        "Red": "Tanah Merah adalah jenis tanah yang memiliki warna merah atau kemerahan akibat kandungan tinggi zat besi oksida. Tanah ini sering ditemukan di daerah tropis dan subtropis. Tanah Merah dapat memiliki kandungan nutrisi yang terbatas dan pH yang rendah.",
     }
     return descriptions.get(label, "Deskripsi tidak tersedia")
+
+
+def getKandungan(label):
+    descriptions = {
+        "Alluvial": "Kandungan bahan organik tinggi. Nutrisi yang baik, seperti nitrogen, fosfor, dan kalium. Mineral yang berasal dari sedimen sungai, seperti lempung, pasir, dan kerikil.",
+        "Black": "Kandungan bahan organik tinggi. Nutrisi yang baik, seperti nitrogen, fosfor, dan kalium. Mineral yang berasal dari sedimen sungai, seperti lempung, pasir, dan kerikil.",
+        "Clay": "Kandungan partikel lempung yang tinggi. Retensi air yang baik. Kapasitas pertukaran kation yang tinggi, yang berarti kemampuan tanah untuk menyimpan dan melepaskan nutrisi kepada tanaman. Kaya akan mineral dan unsur hara, tetapi membutuhkan manajemen drainase yang baik.",
+        "Red": "Kandungan zat besi oksida, yang memberikan warna merah. Umumnya memiliki pH yang rendah hingga sedikit asam. Nutrisi yang terkait dengan batuan asalnya, seperti kandungan rendah fosfor dan kapur.",
+    }
+    return descriptions.get(label, "Kandungan tidak tersedia")
+
+
+def getPersebaran(label):
+    descriptions = {
+        "Alluvial": "Tanah Alluvial umumnya ditemukan di dataran banjir atau lembah sungai di seluruh dunia. Contoh yang terkenal adalah delta sungai Nil di Mesir, delta sungai Mississippi di Amerika Serikat, delta sungai Ganges di India, dan lembah sungai Amazon di Amerika Selatan.",
+        "Black": "Tanah Hitam biasanya ditemukan di daerah yang sebelumnya terdapat aktivitas vulkanik. Contoh yang terkenal adalah tanah hitam di Dataran Tinggi Dekkan di India, di sekitar Gunung Vesuvius di Italia, dan beberapa daerah vulkanik di Indonesia.",
+        "Clay": "Tanah Liat dapat ditemukan di berbagai daerah di seluruh dunia, terutama di daerah yang memiliki curah hujan yang tinggi. Contoh wilayah dengan tanah liat yang signifikan adalah Midwest Amerika Serikat, Delta Sungai Mekong di Vietnam, dan beberapa wilayah di Inggris.",
+        "Red": "Tanah Merah sering ditemukan di daerah tropis dan subtropis. Contoh yang terkenal adalah tanah merah di wilayah tropis Afrika seperti Kongo, tanah merah di wilayah utara Australia, dan tanah merah di beberapa bagian Amerika Selatan seperti Brasil.",
+    }
+    return descriptions.get(label, "Persebaran tidak tersedia")
+
+
+def getCiri_fisik(label):
+    descriptions = {
+        "Alluvial": "Tanah Alluvial memiliki tekstur yang bervariasi, mulai dari pasir hingga lempung, tergantung pada komposisi sedimen sungai. Mereka umumnya memiliki struktur butir kasar dan kepadatan yang rendah.",
+        "Black": "Tanah Hitam memiliki tekstur yang beragam, dari pasir hingga lempung berat, tetapi sering kali memiliki kandungan lempung yang tinggi. Mereka memiliki struktur butir yang agregat dan kemampuan drainase yang baik.",
+        "Clay": "Tanah Liat memiliki kandungan partikel lempung yang tinggi, memberikan tekstur yang halus dan lengket. Mereka memiliki daya tahan air yang tinggi dan cenderung menjadi keras ketika kering.",
+        "Red": "Tanah Merah sering kali memiliki tekstur yang beragam, mulai dari pasir hingga lempung, tetapi seringkali mengandung partikel lempung yang lebih rendah. Mereka memiliki struktur butir yang agregat dan drainase yang bervariasi tergantung pada kondisi fisik tanah.",
+    }
+    return descriptions.get(label, "Ciri fisik tidak tersedia")
+
+
+def getCiri_kimia(label):
+    descriptions = {
+        "Alluvial": "Tanah Alluvial umumnya memiliki kandungan bahan organik yang tinggi, pH netral hingga sedikit asam, dan kandungan nutrisi yang baik karena adanya material organik yang terdeposisi oleh air.",
+        "Black": "Tanah Hitam kaya akan bahan organik, mineral seperti magnesium dan besi, serta memiliki pH netral hingga sedikit basa. Mereka juga memiliki kapasitas penahanan air yang baik.",
+        "Clay": "Tanah Liat memiliki kapasitas pertukaran kation yang tinggi, yang berarti mereka mampu menyimpan dan melepaskan nutrisi dengan baik. pH tanah liat bisa bervariasi, tetapi cenderung lebih asam.",
+        "Red": "Tanah Merah memiliki kandungan zat besi oksida yang tinggi, memberikan warna merah khas. pH tanah merah bisa rendah hingga sedikit asam. Nutrisi tertentu seperti fosfor dapat terbatas dalam tanah merah.",
+    }
+    return descriptions.get(label, "Ciri kimia tidak tersedia")
+
+
+def getCiri_morfologi(label):
+    descriptions = {
+        "Alluvial": "Tanah Alluvial sering memiliki horison atas yang lebih gelap dan kaya akan bahan organik, yang kemudian menurun seiring dengan kedalaman tanah.",
+        "Black": "Tanah Hitam biasanya memiliki horison atas yang sangat gelap dan kaya akan bahan organik, yang memberikan warna hitam khas.",
+        "Clay": "Tanah Liat sering kali memiliki struktur agregat yang padat dan horison atas yang kaya akan bahan organik.",
+        "Red": "Tanah Merah sering kali memiliki horison atas yang merah terang, yang kemudian berubah menjadi horison yang lebih pucat atau abu-abu dengan kedalaman tanah. Struktur dan drainase tanah merah dapat bervariasi tergantung pada kondisi dan sejarah pembentukan tanah.",
+    }
+    return descriptions.get(label, "Ciri morfologi tidak tersedia")
 
 
 # get objek session database
@@ -181,8 +241,10 @@ def simpan_gambar(file, file_path):
 
 
 # Konfigurasi kredensial Google Cloud Storage
-storage_client = storage.Client.from_service_account_json('./upload.json')
-bucket_name = "terralysis-image"
+storage_client = storage.Client.from_service_account_json(
+    "./terralysis-storage-upload-key.json"
+)
+bucket_name = "terralysis-storage"
 
 # Make static folder
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
@@ -232,6 +294,11 @@ async def upload_image(
         kelas=prediction_result,
         short_desc=getShortDesc(label),
         long_desc=getLongDesc(label),
+        kandungan=getKandungan(label),
+        persebaran=getPersebaran(label),
+        ciri_fisik=getCiri_fisik(label),
+        ciri_kimia=getCiri_kimia(label),
+        ciri_morfologi=getCiri_morfologi(label),
     )
     db.add(image)
     db.commit()
@@ -239,7 +306,7 @@ async def upload_image(
     return JSONResponse(
         status_code=200,
         content={
-            "message": "Image Upload Successfully and Get Prediction",
+            "message": "Image User Upload Successfully and Get Prediction",
             "imageId": image_id,
             "url": url,
             "kelas": prediction_result,
@@ -263,7 +330,11 @@ async def get_user_images(
 ) -> List[ImageTable]:
     user_images = db.query(ImageTable).filter(ImageTable.userId == userId).all()
     if not user_images:
-        raise HTTPException(status_code=404, detail="User Has No Images")
+        # raise HTTPException(status_code=404, detail="User Has No Images")
+        return {
+            "status_code": 200,
+            "message": "User Has No Images",
+        }
 
     filtered_images = [filter_image_data(image) for image in user_images]
 
@@ -284,6 +355,10 @@ async def get_user_image(
         .filter(ImageTable.userId == userId, ImageTable.imageId == imageId)
         .first()
     )
+    if not user_image:
+        # raise HTTPException(status_code=404, detail="Image Not Found")
+        return {"status_code": 200, "message": "Image Not Found"}
+
     return {
         "status_code": 200,
         "message": "Get Detail Image User Success",
@@ -300,7 +375,8 @@ async def delete_image(userId: str, imageId: str, db: Session = Depends(get_db))
         .first()
     )
     if not image:
-        raise HTTPException(status_code=404, detail="Image Not Found")
+        # raise HTTPException(status_code=404, detail="Image Not Found")
+        return {"status_code": 200, "message": "Image Not Found"}
 
     db.delete(image)
     db.commit()
@@ -310,11 +386,11 @@ async def delete_image(userId: str, imageId: str, db: Session = Depends(get_db))
     if os.path.exists(file_path):
         os.remove(file_path)
 
-    return {"status_code": 200, "message": "Delete Image Success", "image": image}
+    return {"status_code": 200, "message": "Delete Image Success"}
 
 
 # Upload Image By Guest
-@app.post("/analysis/guest")
+@app.post("/analysis-guest")
 async def upload_image(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
@@ -350,6 +426,11 @@ async def upload_image(
         kelas=prediction_result,
         short_desc=getShortDesc(label),
         long_desc=getLongDesc(label),
+        kandungan=getKandungan(label),
+        persebaran=getPersebaran(label),
+        ciri_fisik=getCiri_fisik(label),
+        ciri_kimia=getCiri_kimia(label),
+        ciri_morfologi=getCiri_morfologi(label),
     )
     db.add(image)
     db.commit()
@@ -357,12 +438,33 @@ async def upload_image(
     return JSONResponse(
         status_code=200,
         content={
-            "message": "Image Upload Successfully and Get Prediction",
+            "message": "Image Guest Upload Successfully and Get Prediction",
             "imageGuestId": image_id,
             "url": url,
             "kelas": prediction_result,
         },
     )
+
+
+# Get Detail Image Guest
+@app.get("/analysis-guest/{image_guestId}", response_model=None)
+async def get_user_image(
+    image_guestId: str, db: Session = Depends(get_db)
+) -> ImageTableGuest:
+    guest_image = (
+        db.query(ImageTableGuest)
+        .filter(ImageTableGuest.imageGuestId == image_guestId)
+        .first()
+    )
+    if not guest_image:
+        # raise HTTPException(status_code=404, detail="Image Not Found")
+        return {"status_code": 200, "message": "Image Not Found"}
+
+    return {
+        "status_code": 200,
+        "message": "Get Detail Image Guest Success",
+        "image": guest_image,
+    }
 
 
 # port = 8080

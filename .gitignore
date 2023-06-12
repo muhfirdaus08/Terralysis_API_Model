@@ -1,4 +1,5 @@
 model_2.h5
 .env
 upload.json
+terralysis-storage-upload-key.json
 # database_sql.py
