@@ -2,7 +2,7 @@
 
 ![banner.](/banner1.png)
 
-##### base url : `https://<cloudru![banner.](/banner1.png)n_service_name>.a.run.app/`
+##### base url : `https://<cloudrun_service_name>.a.run.app/`
 
 ##### live demo : `https://<cloudrun_service_name>.a.run.app/docs`
 
