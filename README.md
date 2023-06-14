@@ -189,3 +189,4 @@
     }
   }
   ```
+## API for User [Terralysis_API_User](https://github.com/muhfirdaus08/Terralysis_API_User)
