@@ -189,4 +189,12 @@
     }
   }
   ```
-## API for User [Terralysis_API_User](https://github.com/muhfirdaus08/Terralysis_API_User)
+### How to run
+- Clone the code or download it as a zip file
+- Connect to your database (same database for User API)
+- Make a bucket in Cloud Storage and get a service account key
+- Download the ML Model through [this link](https://drive.google.com/file/d/14G7g9ZNBDlPs0rFwNmUnKutCF8BwcxW-/view)
+- Run "pip install -r requirements.txt" to install dependencies
+- Run "uvicorn main:app" to run the app
+
+### API for User [Terralysis_API_User](https://github.com/muhfirdaus08/Terralysis_API_User)
